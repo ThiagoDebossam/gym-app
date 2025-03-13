@@ -15,7 +15,7 @@ export default function RegisterScreen({ navigation }) {
     setLoading(true);
 
     try {
-      await register(email, password);
+      await register(email, password, 1);
     } catch (err) {
       setLoading(false);
     }
