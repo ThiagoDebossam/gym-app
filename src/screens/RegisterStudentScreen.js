@@ -26,7 +26,8 @@ export default function RegisterStudentScreen({ navigation }) {
       );
       setName("");
       setEmail("");
-      navigation.navigate('Home');
+      setPhone("");
+      navigation.navigate('StudentList');
     } catch (error) {
       setMessage(error);
     } finally {

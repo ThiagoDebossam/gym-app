@@ -8,7 +8,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import { ActivityIndicator, View } from "react-native";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import RegisterStudentScreen from "../screens/RegisterStudentScreen";
-
+import StudentListScreen from "../screens/StudentListScreen";
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
@@ -29,6 +29,7 @@ export default function AppNavigator() {
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="RegisterStudent" component={RegisterStudentScreen} />
+            <Stack.Screen name="StudentList" component={StudentListScreen} />
           </>
         ) : (
           <>
