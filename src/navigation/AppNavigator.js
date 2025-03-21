@@ -9,6 +9,11 @@ import { ActivityIndicator, View } from "react-native";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import RegisterStudentScreen from "../screens/RegisterStudentScreen";
 import StudentListScreen from "../screens/StudentListScreen";
+import StudentTrainingsScreen from "../screens/StudentTrainingsScreen";
+import CreateTrainingScreen from "../screens/CreateTrainingScreen";
+import CreateExerciseScreen from "../screens/CreateExerciseScreen";
+import TrainingDetailsScreen from "../screens/TrainingDetailsScreen";
+
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
@@ -30,6 +35,10 @@ export default function AppNavigator() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="RegisterStudent" component={RegisterStudentScreen} />
             <Stack.Screen name="StudentList" component={StudentListScreen} />
+            <Stack.Screen name="StudentTrainings" component={StudentTrainingsScreen} />
+            <Stack.Screen name="CreateTraining" component={CreateTrainingScreen} />
+            <Stack.Screen name="CreateExercise" component={CreateExerciseScreen} />
+            <Stack.Screen name="TrainingDetails" component={TrainingDetailsScreen} />
           </>
         ) : (
           <>

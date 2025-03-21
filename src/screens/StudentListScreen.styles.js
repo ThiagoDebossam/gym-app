@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   listContent: {
     padding: 16,
-    paddingBottom: 80, // Espaço para o FAB
+    paddingBottom: 80,
   },
   loadingContainer: {
     flex: 1,
@@ -23,6 +23,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     elevation: 2,
+    marginRight: 16,
+    marginLeft: 16,
   },
   searchInput: {
     flex: 1,

@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   RefreshControl,
+  Keyboard,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './StudentListScreen.styles';
@@ -72,6 +73,10 @@ const StudentListScreen = ({ navigation }) => {
     );
   };
 
+  const handleSearchChange = (text) => {
+    setSearchQuery(text);
+  };
+
   const filteredStudents = students.filter(student =>
     student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     student.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -86,6 +91,19 @@ const StudentListScreen = ({ navigation }) => {
     navigation.navigate('RegisterStudent', { student });
   };
 
+  const handleViewTrainings = (student) => {
+    const serializedStudent = {
+      ...student,
+      createdAt: student.createdAt ? 
+        (typeof student.createdAt.toISOString === 'function' ? 
+          student.createdAt.toISOString() : 
+          student.createdAt) : 
+        null
+    };
+    
+    navigation.navigate('StudentTrainings', { student: serializedStudent });
+  };
+
   const renderStudentCard = ({ item }) => (
     <View style={styles.studentCard}>
       <Text style={styles.studentName}>{item.name}</Text>
@@ -93,6 +111,13 @@ const StudentListScreen = ({ navigation }) => {
       <Text style={styles.studentInfo}>{item.phone}</Text>
       
       <View style={styles.actionsContainer}>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => handleViewTrainings(item)}
+        >
+          <Feather name="activity" size={20} color="#4CAF50" />
+        </TouchableOpacity>
+        
         <TouchableOpacity
           style={styles.actionButton}
           onPress={() => handleEditStudent(item)}
@@ -108,27 +133,6 @@ const StudentListScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
-  );
-
-  const ListHeaderComponent = () => (
-    <>
-      {error ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-        </View>
-      ) : null}
-
-      <View style={styles.searchContainer}>
-        <Feather name="search" size={20} color="#bbb" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Buscar aluno..."
-          placeholderTextColor="#bbb"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
-    </>
   );
 
   const ListEmptyComponent = () => (
@@ -151,12 +155,39 @@ const StudentListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {error ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      ) : null}
+
+      <View style={styles.searchContainer}>
+        <Feather name="search" size={20} color="#bbb" />
+        <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          returnKeyType="search"
+          style={styles.searchInput}
+          placeholder="Buscar aluno..."
+          placeholderTextColor="#bbb"
+          value={searchQuery}
+          onChangeText={handleSearchChange}
+          blurOnSubmit={false}
+          onSubmitEditing={() => {}}
+        />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity onPress={() => setSearchQuery('')}>
+            <Feather name="x" size={18} color="#bbb" />
+          </TouchableOpacity>
+        )}
+      </View>
+
       <FlatList
+        keyboardShouldPersistTaps="always"
         data={filteredStudents}
         renderItem={renderStudentCard}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={ListEmptyComponent}
         contentContainerStyle={styles.listContent}
         refreshControl={
@@ -167,6 +198,7 @@ const StudentListScreen = ({ navigation }) => {
             tintColor="#6200EE"
           />
         }
+        onScrollBeginDrag={Keyboard.dismiss}
       />
       <TouchableOpacity
         style={styles.fab}
